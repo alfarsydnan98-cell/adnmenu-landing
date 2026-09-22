@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QR Ordering for Restaurants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Manrope:wght@400;600;700;800&family=Markazi+Text:wght@500;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1712; --ink-soft:#2c251d;
+  --parchment:#efe6d4; --parchment-2:#e7dcc4;
+  --brass:#a9814a; --brass-dark:#8a6737;
+  --wine:#6f2331; --stone:#79705f; --stone-light:#a89d89;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Manrope',Arial,sans-serif;
+}
+html[dir="rtl"]{ --font-display:'Markazi Text',serif; --font-body:'Cairo',Arial,sans-serif; }
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--parchment);color:var(--ink);font-family:var(--font-body);line-height:1.5}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ }
+}
+h1,h2,h3{font-family:var(--font-display);margin:0;font-weight:600}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+
+/* ===== NAV ===== */
+nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.brand{font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:.2px}
+.langbtn{border:1.5px solid var(--brass);background:transparent;color:var(--ink);font-family:var(--font-body);font-weight:700;padding:8px 16px;border-radius:5px;cursor:pointer;font-size:14px}
+.langbtn:hover{background:var(--brass);color:#fff}
+
+/* ===== HERO ===== */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center;padding:50px 0 80px}
+.hero h1{font-size:52px;line-height:1.08;letter-spacing:-.5px}
+.hero p.lead{margin-top:20px;font-size:19px;color:var(--stone);max-width:46ch;line-height:1.6}
+.cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:6px;font-weight:700;font-size:16px;text-decoration:none;cursor:pointer;border:0}
+.btn-primary{background:var(--brass);color:#fff}
+.btn-primary:hover{background:var(--brass-dark)}
+.btn-ghost{border:1.5px solid var(--ink);background:transparent;color:var(--ink)}
+
+/* phone mock */
+.phone{position:relative;background:var(--ink);border-radius:38px;padding:14px;box-shadow:0 30px 60px -20px rgba(27,23,18,.4);max-width:300px;margin-inline-start:auto}
+.phone-screen{background:var(--parchment);border-radius:26px;overflow:hidden;padding:20px 16px}
+.ps-head{font-weight:700;font-size:15px;border-bottom:2px solid var(--parchment-2);padding-bottom:12px;margin-bottom:14px}
+.ps-item{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fff;border:1px solid var(--parchment-2);border-radius:10px;padding:12px;margin-bottom:10px}
+.ps-item b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-item span{white-space:nowrap;flex-shrink:0}
+.ps-item b{font-size:14px}
+.ps-item span{color:var(--brass-dark);font-weight:700;font-size:13px}
+.ps-btn{background:var(--brass);color:#fff;text-align:center;font-weight:700;padding:13px;border-radius:8px;margin-top:6px;font-size:14px}
+
+/* ===== HOW IT WORKS ===== */
+.steps-section{padding:70px 0;border-top:1px solid var(--parchment-2)}
+.section-title{font-size:34px;margin-bottom:44px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.step{border-inline-start:3px solid var(--brass);padding-inline-start:20px}
+.step .num{font-family:var(--font-display);font-size:15px;color:var(--brass-dark);font-weight:700;margin-bottom:8px}
+.step h3{font-size:21px;margin-bottom:10px}
+.step p{color:var(--stone);font-size:15.5px;line-height:1.6}
+
+/* ===== FEATURES ===== */
+.features-section{padding:70px 0;border-top:1px solid var(--parchment-2)}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--parchment-2);border:1px solid var(--parchment-2)}
+.feature{background:var(--parchment);padding:32px 28px}
+.feature h3{font-size:18px;margin-bottom:10px}
+.feature p{color:var(--stone);font-size:14.5px;line-height:1.55}
+
+/* ===== CTA BAND ===== */
+.cta-band{background:var(--ink);color:var(--parchment);padding:64px 0;text-align:center}
+.cta-band h2{color:#fff;font-size:32px;margin-bottom:16px}
+.cta-band p{color:var(--stone-light);font-size:17px;margin-bottom:30px}
+
+footer{padding:36px 0;text-align:center;color:var(--stone);font-size:14px}
+
+/* floating whatsapp */
+.wa-float{position:fixed;bottom:24px;inset-inline-end:24px;background:#25D366;color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:50;text-decoration:none}
+.wa-float svg{width:28px;height:28px}
+
+[data-ar]{display:none}
+html[dir="rtl"] [data-en]{display:none}
+html[dir="rtl"] [data-ar]{display:inline}
+html[dir="rtl"] .hero{grid-template-columns:.9fr 1.1fr}
+html[dir="rtl"] .phone{margin-inline-start:0;margin-inline-end:auto}
+
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .hero h1{font-size:36px}
+  .phone{margin-inline:auto;max-width:260px}
+  .steps,.features{grid-template-columns:1fr}
+  .section-title{font-size:27px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="brand">Adn<span style="color:var(--brass)">Menu</span></div>
+    <button class="langbtn" id="langToggle">العربية</button>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1>
+        <span data-en>Your menu, on every table.</span>
+        <span data-ar>قائمتك، على كل طاولة.</span>
+      </h1>
+      <p class="lead">
+        <span data-en>Guests scan a code at the table, order from their phone, and it reaches your kitchen instantly — no app to download, no waiting for a waiter to take the order.</span>
+        <span data-ar>الزبون يمسح رمز QR من على الطاولة، يطلب من جواله مباشرة، والطلب يوصل مطبخك فورًا — بدون تطبيق يحمّله، وبدون انتظار نادل.</span>
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://wa.me/96898109955" target="_blank" rel="noopener">
+          <span data-en>Chat on WhatsApp</span>
+          <span data-ar>راسلنا واتساب</span>
+        </a>
+        <a class="btn btn-ghost" href="#how">
+          <span data-en>See how it works</span>
+          <span data-ar>شوف كيف يشتغل</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ps-head">
+          <span data-en>Table 7 · Menu</span>
+          <span data-ar>طاولة ٧ · القائمة</span>
+        </div>
+        <div class="ps-item"><b><span data-en>Shuwa Platter</span><span data-ar>طبق شواء</span></b><span>3.200 OMR</span></div>
+        <div class="ps-item"><b><span data-en>Grilled Kingfish</span><span data-ar>سمك مشوي</span></b><span>2.800 OMR</span></div>
+        <div class="ps-item"><b><span data-en>Chicken Mandi</span><span data-ar>مندي دجاج</span></b><span>2.500 OMR</span></div>
+        <div class="ps-btn">
+          <span data-en>Place Order</span>
+          <span data-ar>إرسال الطلب</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap" id="how">
+  <section class="steps-section">
+    <h2 class="section-title">
+      <span data-en>How it works</span>
+      <span data-ar>كيف يشتغل</span>
+    </h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3><span data-en>Scan</span><span data-ar>يمسح</span></h3>
+        <p>
+          <span data-en>The guest scans the QR code placed on their table — no app, no account.</span>
+          <span data-ar>الزبون يمسح رمز QR الموجود على طاولته — بدون تطبيق أو حساب.</span>
+        </p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3><span data-en>Order</span><span data-ar>يطلب</span></h3>
+        <p>
+          <span data-en>Your full menu opens on their phone. They pick what they want and send the order.</span>
+          <span data-ar>قائمتكم كاملة تفتح على جواله. يختار طلبه ويرسله مباشرة.</span>
+        </p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3><span data-en>Served</span><span data-ar>يوصل</span></h3>
+        <p>
+          <span data-en>The order appears instantly on your dashboard with the table number — ready to prepare.</span>
+          <span data-ar>الطلب يظهر فورًا في لوحتكم مع رقم الطاولة — جاهز للتحضير.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="features-section">
+    <h2 class="section-title">
+      <span data-en>Everything your restaurant needs</span>
+      <span data-ar>كل اللي يحتاجه مطعمك</span>
+    </h2>
+    <div class="features">
+      <div class="feature">
+        <h3><span data-en>A QR code per table</span><span data-ar>QR خاص بكل طاولة</span></h3>
+        <p><span data-en>Every order arrives with the exact table number attached, automatically.</span><span data-ar>كل طلب يوصل مربوط برقم الطاولة تلقائيًا.</span></p>
+      </div>
+      <div class="feature">
+        <h3><span data-en>Live order dashboard</span><span data-ar>لوحة طلبات فورية</span></h3>
+        <p><span data-en>See every order the moment it's placed, and update its status as it's prepared.</span><span data-ar>شوف كل طلب لحظة إرساله، وحدّث حالته أثناء التحضير.</span></p>
+      </div>
+      <div class="feature">
+        <h3><span data-en>Staff accounts</span><span data-ar>حسابات للموظفين</span></h3>
+        <p><span data-en>Give your team their own logins, with access limited to what they need.</span><span data-ar>أعط فريقك حسابات خاصة، بصلاحيات محدودة حسب دورهم.</span></p>
+      </div>
+      <div class="feature">
+        <h3><span data-en>Menu themes</span><span data-ar>ثيمات للقائمة</span></h3>
+        <p><span data-en>Choose a color theme that matches your restaurant's identity.</span><span data-ar>اختر ألوان تناسب هوية مطعمك.</span></p>
+      </div>
+      <div class="feature">
+        <h3><span data-en>Works on any phone</span><span data-ar>يشتغل على أي جوال</span></h3>
+        <p><span data-en>No download required — the menu opens right in the browser.</span><span data-ar>بدون تحميل — القائمة تفتح مباشرة من المتصفح.</span></p>
+      </div>
+      <div class="feature">
+        <h3><span data-en>Your data, isolated</span><span data-ar>بياناتك خاصة بك</span></h3>
+        <p><span data-en>Your menu, orders and staff are private to your restaurant only.</span><span data-ar>قائمتك وطلباتك وموظفينك خاصين بمطعمك فقط.</span></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2><span data-en>Ready to see it on your menu?</span><span data-ar>جاهز تشوفها على قائمة مطعمك؟</span></h2>
+    <p><span data-en>Message us on WhatsApp and we'll set up a quick demo.</span><span data-ar>راسلنا واتساب ونجهز لك عرض سريع.</span></p>
+    <a class="btn btn-primary" href="https://wa.me/96898109955" target="_blank" rel="noopener">
+      <span data-en>Chat on WhatsApp — 9810 9955</span>
+      <span data-ar>راسلنا واتساب — ٩٨١٠ ٩٩٥٥</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span data-en>AdnMenu · adnmenu.com · WhatsApp 9810 9955</span>
+  <span data-ar>أدن منيو · adnmenu.com · واتساب ٩٨١٠ ٩٩٥٥</span>
+</footer>
+
+<a class="wa-float" href="https://wa.me/96898109955" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.7 4.61 1.902 6.478L4 29l7.72-1.865A11.94 11.94 0 0 0 16.001 27C22.63 27 28 21.627 28 15S22.63 3 16.001 3zm0 21.6c-2.03 0-3.92-.594-5.512-1.617l-.395-.25-4.583 1.107 1.15-4.47-.258-.41A9.57 9.57 0 0 1 5.4 15c0-5.85 4.75-10.6 10.6-10.6S26.6 9.15 26.6 15 21.85 24.6 16.001 24.6zm5.8-7.94c-.318-.16-1.885-.93-2.177-1.037-.293-.107-.505-.16-.718.16-.212.319-.822 1.037-1.008 1.25-.186.213-.372.24-.69.08-.318-.16-1.343-.495-2.557-1.577-.945-.843-1.583-1.884-1.769-2.203-.186-.319-.02-.491.14-.65.144-.144.318-.372.478-.559.16-.186.212-.319.318-.531.106-.213.053-.4-.027-.559-.08-.16-.718-1.73-.983-2.368-.259-.622-.522-.538-.718-.548l-.611-.011c-.213 0-.559.08-.851.4-.293.319-1.117 1.09-1.117 2.66 0 1.57 1.143 3.086 1.302 3.3.16.212 2.252 3.44 5.457 4.823.762.329 1.357.526 1.821.673.765.243 1.462.209 2.012.127.614-.092 1.885-.77 2.15-1.514.266-.744.266-1.38.186-1.514-.08-.133-.293-.213-.611-.372z"/></svg>
+</a>
+
+<script>
+document.getElementById('langToggle').addEventListener('click', function(){
+  const html = document.getElementById('htmlRoot');
+  const isAr = html.getAttribute('dir') === 'rtl';
+  if(isAr){
+    html.setAttribute('dir','ltr'); html.setAttribute('lang','en');
+    this.textContent = 'العربية';
+  } else {
+    html.setAttribute('dir','rtl'); html.setAttribute('lang','ar');
+    this.textContent = 'English';
+  }
+});
+</script>
+
+</body>
+</html>
